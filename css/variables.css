@@ -1,0 +1,62 @@
+:root {
+  /* Core Surfaces - Classic JX1 Obsidian & Silk */
+  --bg-void: #070908;
+  --bg-panel: #111613;
+  --bg-panel-inner: #171E19;
+  --bg-slot: #0B0E0C;
+  --bg-slot-hover: #18221C;
+  --bg-tooltip: rgba(8, 10, 9, 0.96);
+
+  /* Classic JX1 Borders & Metals */
+  --border-outer: #3D311E;
+  --border-bronze: #6E5A34;
+  --border-gold: #C5A059;
+  --border-gold-bright: #EAB308;
+  --border-slot: #524328;
+
+  /* Text Hierarchy */
+  --text-title: #F3E5AB;
+  --text-main: #E5E7EB;
+  --text-muted: #849287;
+  --text-jade: #4ADE80;
+  --text-gold-tip: #FACC15;
+  --text-orange-date: #FB923C;
+
+  /* Five Elements (Ngũ Hành) Colors */
+  --el-kim: #FACC15;
+  --el-kim-bg: rgba(250, 204, 21, 0.14);
+  --el-kim-border: #CA8A04;
+
+  --el-moc: #4ADE80;
+  --el-moc-bg: rgba(74, 222, 128, 0.14);
+  --el-moc-border: #16A34A;
+
+  --el-thuy: #38BDF8;
+  --el-thuy-bg: rgba(56, 189, 248, 0.14);
+  --el-thuy-border: #0284C7;
+
+  --el-hoa: #F87171;
+  --el-hoa-bg: rgba(248, 113, 113, 0.14);
+  --el-hoa-border: #DC2626;
+
+  --el-tho: #D97706;
+  --el-tho-bg: rgba(217, 119, 6, 0.16);
+  --el-tho-border: #B45309;
+
+  /* Equipment Attribute Line Colors (Chuẩn VLTK 1) */
+  --attr-visible: #FEF08A;        /* Dòng dương / Hoàng kim sáng */
+  --attr-blue-magic: #93C5FD;     /* Dòng xanh trang bị huyền tinh/xanh */
+  --attr-hidden-on: #FDE047;      /* Dòng âm đã được kích sáng */
+  --attr-hidden-off: #64748B;     /* Dòng âm chưa kích (xám tối) */
+  --attr-char-bonus: #4ADE80;     /* Dòng được Nhân Vật tự kích */
+
+  /* Typography */
+  --font-jx1: Tahoma, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Noto Serif", Georgia, Tahoma, serif;
+
+  /* Spacing & Geometry (Sharp Classic Corners) */
+  --radius-none: 0px;
+  --radius-xs: 2px;
+  --shadow-window: 0 16px 40px rgba(0, 0, 0, 0.9), inset 0 0 0 1px rgba(197, 160, 89, 0.25);
+}
+

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hệ Thống Nhân Vật - Trang Bị Ngũ Hành VLTK 1 (JX1 Simulator)</title>
+  <meta name="description" content="Mô phỏng giao diện 10 món trang bị Ngũ Hành Võ Lâm Truyền Kỳ 1 (JX1), chọn hệ nhân vật tự kích dòng ẩn, phối đồ chuẩn và mặc phá hành có lưu trữ." />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/jx1-ui.css" />
+</head>
+<body>
+  <!-- THANH CÔNG CỤ ĐẦU TRANG -->
+  <header class="app-topbar">
+    <div class="brand-group">
+      <div class="brand-emblem" aria-hidden="true">五行</div>
+      <div>
+        <h1 class="brand-title">Võ Lâm Truyền Kỳ 1 — Mô Phỏng 10 Trang Bị Ngũ Hành</h1>
+        <p class="brand-subtitle">Chuẩn quy tắc 5 cặp kích thuộc tính âm • Nhân vật tự kích 1 dòng tương sinh • Hỗ trợ lưu cấu hình Phá Hành</p>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button type="button" id="btnStandardByChar" class="btn-jx1 btn-gold" title="Dạng 1: Nhân vật hệ gì mang Vũ Khí hệ đó (Xếp chuẩn 5 cặp theo Hệ Nhân Vật)">
+        ⚡ Chuẩn Dạng 1: Theo Hệ NV (VK Cùng Hệ NV)
+      </button>
+      <button type="button" id="btnAutoStandard" class="btn-jx1 btn-gold" title="Dạng 2: Soi cả Hệ Nhân Vật và Hệ Vũ Khí đang chọn để xếp chuẩn 5 cặp">
+        🗡️ Chuẩn Dạng 2: Theo Hệ Vũ Khí Đang Chọn
+      </button>
+      <button type="button" id="btnSamplePhaHanh" class="btn-jx1" title="Phá hành căn cứ theo Vũ Khí + Tăng thêm đồ kháng hệ khắc nhân vật">
+        🔥 Phá Hành Tăng Kháng Hệ Bị Khắc
+      </button>
+      <button type="button" id="btnToggleLines" class="btn-jx1" aria-pressed="true">
+        🔗 Đường Nối: BẬT
+      </button>
+    </div>
+  </header>
+
+  <!-- BỐ CỤC 3 CỘT CHÍNH -->
+  <main class="workspace-grid">
+    <!-- =======================================================
+         CỘT 1: KHUNG HỆ THỐNG NHÂN VẬT CHUẨN VLTK 1 (10 MÓN)
+         ======================================================= -->
+    <section class="jx1-window" aria-label="Khung Hệ Thống Nhân Vật VLTK 1">
+      <!-- Thanh Tiêu Đề Cổ Điển -->
+      <div class="jx1-window-header">
+        <div class="jx1-ornament" aria-hidden="true">壽</div>
+        <h2 class="jx1-window-title">HỆ THỐNG NHÂN VẬT</h2>
+        <div class="jx1-ornament" aria-hidden="true">福</div>
+      </div>
+
+      <!-- 3 Tab kinh điển -->
+      <div class="jx1-tabs" role="tablist" id="jx1WindowTabs">
+        <div class="jx1-tab" role="tab" data-tab="stats" aria-selected="false">Thuộc tính</div>
+        <div class="jx1-tab active" role="tab" data-tab="equip" aria-selected="true">Trang bị (10 Món)</div>
+        <div class="jx1-tab" role="tab" data-tab="eval" aria-selected="false">Đánh giá</div>
+      </div>
+
+      <!-- Thay Tên Nhân Vật bằng Bộ Chọn Ngũ Hành Nhân Vật -->
+      <div class="jx1-char-bar">
+        <div class="char-element-selector-group">
+          <label for="charElementSelect" class="char-label">Ngũ Hành NV:</label>
+          <select id="charElementSelect" class="char-element-select" aria-label="Chọn Ngũ Hành Nhân Vật">
+            <option value="KIM">Hệ Kim (Thiếu Lâm / Thiên Vương)</option>
+            <option value="MOC">Hệ Mộc (Đường Môn / Ngũ Độc)</option>
+            <option value="THUY" selected>Hệ Thủy (Nga My / Thúy Yên)</option>
+            <option value="HOA">Hệ Hỏa (Cái Bang / Thiên Nhẫn)</option>
+            <option value="THO">Hệ Thổ (Võ Đang / Côn Lôn)</option>
+          </select>
+        </div>
+        <div class="char-pk-box">
+          <div class="pk-row">PK <span class="pk-val">0</span></div>
+          <div class="char-sub-status" id="charBuildModeLabel">Chuẩn Ngũ Hành</div>
+        </div>
+      </div>
+
+      <!-- 5 Nút chuyển nhanh Hệ Nhân Vật -->
+      <div class="char-element-pills" id="charElementPills" role="group" aria-label="Chọn nhanh Ngũ Hành Nhân Vật">
+        <button type="button" class="el-pill" data-el="KIM">⚔️ NV KIM</button>
+        <button type="button" class="el-pill" data-el="MOC">🌿 NV MỘC</button>
+        <button type="button" class="el-pill active" data-el="THUY">💧 NV THỦY</button>
+        <button type="button" class="el-pill" data-el="HOA">🔥 NV HỎA</button>
+        <button type="button" class="el-pill" data-el="THO">🪨 NV THỔ</button>
+      </div>
+
+      <!-- Bộ chọn Hệ Vũ Khí làm mốc xếp chuẩn 5 cặp (Ví dụ NV Thủy cầm VK Thủy hoặc VK Kim) -->
+      <div style="padding: 5px 8px; background: #101612; border-bottom: 1px solid #222C25;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; font-size: 11px;">
+          <span style="color: var(--text-gold-tip); font-weight: 700;">🗡️ Xếp Chuẩn 5 Cặp Tính Theo Hệ Vũ Khí:</span>
+          <label style="cursor: pointer; display: flex; align-items: center; gap: 4px; color: var(--text-muted);" title="Tích chọn nếu muốn giữ nguyên 10 món đang mặc khi đổi Hệ Nhân Vật">
+            <input type="checkbox" id="chkKeepGearOnCharChange" />
+            <span>Giữ đồ khi đổi NV</span>
+          </label>
+        </div>
+        <div class="char-element-pills" id="weaponAnchorPills" role="group" aria-label="Chọn Hệ Vũ Khí làm mốc xếp chuẩn 5 cặp" style="padding: 0; background: transparent; border: none;">
+          <button type="button" class="el-pill" data-vk-el="KIM" title="Xếp chuẩn 5 cặp theo Vũ Khí Hệ Kim (VD: Ngoại công STVL / Hút SL-NL)">🗡️ VK KIM</button>
+          <button type="button" class="el-pill" data-vk-el="MOC" title="Xếp chuẩn 5 cặp theo Vũ Khí Hệ Mộc (Độc sát)">🗡️ VK MỘC</button>
+          <button type="button" class="el-pill active" data-vk-el="THUY" title="Xếp chuẩn 5 cặp theo Vũ Khí Hệ Thủy (Băng sát)">🗡️ VK THỦY</button>
+          <button type="button" class="el-pill" data-vk-el="HOA" title="Xếp chuẩn 5 cặp theo Vũ Khí Hệ Hỏa (Hỏa sát)">🗡️ VK HỎA</button>
+          <button type="button" class="el-pill" data-vk-el="THO" title="Xếp chuẩn 5 cặp theo Vũ Khí Hệ Thổ (Lôi sát)">🗡️ VK THỔ</button>
+        </div>
+      </div>
+
+      <!-- Thông báo Quy Luật Tương Sinh Tự Kích Dòng Của Nhân Vật -->
+      <div class="char-passive-banner" id="charPassiveBanner">
+        <!-- Render động từ JS -->
+      </div>
+
+      <!-- SÂN KHẤU 10 Ô TRANG BỊ (3 CỘT QUANH BÓNG HIỆP KHÁCH) -->
+      <div class="jx1-stage-wrapper" id="equipmentStage">
+        <!-- Hình bóng hiệp khách cổ trang làm nền -->
+        <div class="jx1-silhouette" aria-hidden="true">
+          <svg width="210" height="380" viewBox="0 0 210 380" fill="none">
+            <circle cx="105" cy="52" r="24" stroke="#C5A059" stroke-width="2" fill="#1F2922"/>
+            <path d="M90 26C95 14 115 14 120 26Z" fill="#D4AF37"/>
+            <path d="M65 92L105 78L145 92L162 195L135 202L126 135V340H84V135L75 202L48 195L65 92Z" fill="#1A241E" stroke="#856B3E" stroke-width="2"/>
+            <circle cx="105" cy="155" r="78" stroke="#C5A059" stroke-width="1" stroke-dasharray="4 4"/>
+          </svg>
+        </div>
+
+        <!-- Lớp SVG vẽ tia sáng nối 2 món mồi -> món đang chọn -->
+        <svg class="jx1-lines-svg" id="activationLinesSvg" aria-hidden="true"></svg>
+
+        <!-- Lưới 3 cột chỉ chứa đúng 10 ô trang bị Ngũ Hành -->
+        <div class="jx1-slots-grid">
+          <!-- Cột Trái: 4 món (Hộ Uyển, Nhẫn Trên, Nhẫn Dưới, Ngọc Bội) -->
+          <div class="slot-col slot-col-left" id="colSlotsLeft"></div>
+
+          <!-- Cột Giữa: 3 món (Đầu Khôi, Y Phục, Yêu Đái) -->
+          <div class="slot-col slot-col-center" id="colSlotsCenter"></div>
+
+          <!-- Cột Phải: 3 món (Hạng Liên, Vũ Khí, Hài) -->
+          <div class="slot-col slot-col-right" id="colSlotsRight"></div>
+        </div>
+      </div>
+
+      <!-- TAB THUỘC TÍNH & TAB ĐÁNH GIÁ TRONG CỬA SỔ F3 VLTK 1 -->
+      <div class="jx1-stage-wrapper" id="charStatsTabPane" style="display: none; padding: 12px; overflow-y: auto;"></div>
+      <div class="jx1-stage-wrapper" id="charEvalTabPane" style="display: none; padding: 12px; overflow-y: auto;"></div>
+
+      <!-- Chân khung cửa sổ nhân vật -->
+      <div class="jx1-window-footer">
+        <div class="legend-inline">
+          <span class="legend-item"><span class="hidden-dot on-char"></span> NV tự kích</span>
+          <span class="legend-item"><span class="hidden-dot on"></span> Đồ mồi kích</span>
+          <span class="legend-item"><span class="hidden-dot"></span> Chưa kích</span>
+        </div>
+        <span style="font-size: 11px; color: var(--text-title);">Click vào ô để chỉnh Hệ / Phá hành</span>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         CỘT 2: TOOLTIP CHUẨN VLTK 1 & XƯỞNG CHỈNH TỪNG MÓN ĐỒ
+         ======================================================= -->
+    <section class="col-inspector" aria-label="Chi tiết trang bị và chỉnh sửa Ngũ Hành">
+      <div class="panel-card">
+        <div class="panel-header">
+          <h2 class="panel-title" id="inspectorHeaderTitle">CHI TIẾT TRANG BỊ ĐANG CHỌN</h2>
+          <span id="inspectorPairBadge" style="font-size: 11.5px; color: var(--text-jade); font-weight: 700;"></span>
+        </div>
+        <div class="panel-body">
+          <!-- Hộp Tooltip chuẩn VLTK 1 (Giống ảnh Kim Phong Kỳ Lân Huyết) -->
+          <div class="jx1-tooltip-box" id="mainTooltipBox">
+            <!-- Render động từ JS -->
+          </div>
+
+          <!-- 3 Thẻ Giải Thích 3 Nguồn Kích (1 Nhân Vật + 2 Món Đồ Mồi) -->
+          <div class="sources-breakdown" id="sourcesBreakdownBox">
+            <!-- Render động từ JS -->
+          </div>
+
+          <!-- Khu vực Đổi Hệ Từng Món (Mặc Chuẩn hoặc Phá Hành) & Sửa Dòng Thuộc Tính -->
+          <div class="editor-section">
+            <div class="editor-row">
+              <div>
+                <div class="editor-label" id="editorSlotTitle">Đổi Hệ Ngũ Hành Cho Món Này:</div>
+                <div style="font-size: 11px; color: var(--text-muted);">
+                  Bạn có thể đổi sang bất kỳ hệ nào để thử nghiệm <strong>Mặc Phá Hành</strong>
+                </div>
+              </div>
+              <label style="font-size: 11.5px; color: var(--text-gold-tip); cursor: pointer; display: flex; align-items: center; gap: 5px;" title="Nếu tích chọn: khi đổi hệ món này sẽ tự động đổi luôn món đi cùng cặp kích với nó">
+                <input type="checkbox" id="chkSyncPair" />
+                <span id="lblSyncPairText">Đổi luôn cả cặp (Áo + Dây chuyền)</span>
+              </label>
+            </div>
+
+            <!-- 5 Nút Đổi Hệ cho món đang chọn -->
+            <div class="char-element-pills" id="itemElementButtons" style="padding: 0; background: transparent; border: none; margin-bottom: 12px;">
+              <button type="button" class="el-pill" data-item-el="KIM">Hệ Kim</button>
+              <button type="button" class="el-pill" data-item-el="MOC">Hệ Mộc</button>
+              <button type="button" class="el-pill" data-item-el="THUY">Hệ Thủy</button>
+              <button type="button" class="el-pill" data-item-el="HOA">Hệ Hỏa</button>
+              <button type="button" class="el-pill" data-item-el="THO">Hệ Thổ</button>
+            </div>
+
+            <!-- Chọn Set Thuộc Tính Lọc Đồ Thủ Công từ File .lua tương ứng -->
+            <div style="background: #0D1410; border: 1px solid #2A382E; padding: 9px 10px; margin-bottom: 10px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 6px; flex-wrap: wrap;">
+                <label for="luaSetSelect" style="font-size: 11.5px; font-weight: 700; color: var(--text-gold-tip);">
+                  📜 Chọn Set Thuộc Tính Chuẩn File Lua:
+                </label>
+                <div style="display: flex; align-items: center; gap: 6px; font-size: 11px;">
+                  <code id="luaFileBadge" style="background: #141E18; color: #4ADE80; padding: 2px 6px; border: 1px solid #24382B;">pa_nam_ao_kim.lua</code>
+                  <span id="luaDongAnBadge" style="color: #93C5FD; font-family: var(--font-mono); font-size: 10.5px;"></span>
+                </div>
+              </div>
+              <select id="luaSetSelect" class="jx1-input" style="width: 100%; font-size: 12px; color: #FEF08A;">
+                <!-- Render các Set 1 -> Set 8 từ file .lua của món + hệ đang chọn -->
+              </select>
+            </div>
+
+            <!-- Tùy chỉnh Tên món đồ & 6 dòng thuộc tính tượng trưng -->
+            <details style="background: #0B0F0D; border: 1px solid #26312A; padding: 8px 10px;">
+              <summary style="cursor: pointer; font-weight: 700; color: var(--text-title); font-size: 12px;">
+                🛠️ Tùy chỉnh Tên Trang Bị & 6 Dòng Thuộc Tính Tượng Trưng (Click để mở)
+              </summary>
+              <div style="margin-top: 10px;">
+                <div class="attr-edit-item" style="margin-bottom: 8px;">
+                  <label for="inputItemName">Tên trang bị hiển thị trên Tooltip:</label>
+                  <input type="text" id="inputItemName" class="jx1-input" />
+                </div>
+                <div class="attr-edit-grid" id="attrEditInputsContainer">
+                  <!-- Render 6 ô input cho Hiện 1, Ẩn 1, Hiện 2, Ẩn 2, Hiện 3, Ẩn 3 -->
+                </div>
+              </div>
+            </details>
+
+            <!-- Xem & Copy Code Lua (ThemSetThuocTinh) của món đang chọn -->
+            <details style="background: #0B0F0D; border: 1px solid #26312A; padding: 8px 10px; margin-top: 8px;">
+              <summary style="cursor: pointer; font-weight: 700; color: #86EFAC; font-size: 12px;">
+                📜 Xem / Copy Code Lua Lọc Đồ (ThemSetThuocTinh) Của Món Này
+              </summary>
+              <div style="margin-top: 8px;">
+                <pre id="luaCodePreview" style="margin: 0 0 8px; padding: 8px; background: #070A08; border: 1px solid #1E2E23; color: #A7F3D0; font-family: var(--font-mono); font-size: 11px; line-height: 1.45; overflow-x: auto; white-space: pre-wrap;"></pre>
+                <button type="button" id="btnCopyLuaSet" class="btn-jx1" style="padding: 4px 10px; font-size: 11px;">
+                  📋 Copy Code Lua Món Này
+                </button>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         CỘT 3: LƯU BỘ ĐỒ (CHUẨN / PHÁ HÀNH) & SƠ ĐỒ 5 CẶP
+         ======================================================= -->
+    <aside class="col-presets" aria-label="Quản lý lưu bộ trang bị và thống kê">
+      <!-- Bảng Lưu / Tải Bộ Phối Đồ (Hỗ trợ lưu Phá Hành) -->
+      <div class="panel-card">
+        <div class="panel-header">
+          <h2 class="panel-title">💾 LƯU & MỞ BỘ PHỐI ĐỒ (PRESETS)</h2>
+          <div style="display: flex; gap: 4px;">
+            <button type="button" id="btnExportJson" class="btn-jx1" style="padding: 3px 8px; font-size: 11px;">
+              📋 Copy JSON
+            </button>
+            <button type="button" id="btnImportJson" class="btn-jx1" style="padding: 3px 8px; font-size: 11px;">
+              📥 Nhập JSON
+            </button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="save-form-group">
+            <label for="inputPresetName" style="font-size: 11.5px; color: var(--text-title); font-weight: 700;">
+              Lưu cấu hình 10 món hiện tại (Chuẩn hoặc Phá Hành):
+            </label>
+            <input
+              type="text"
+              id="inputPresetName"
+              class="jx1-input"
+              placeholder="VD: Set Thủy Mặc Phá Hành Giày + Nhẫn..."
+            />
+            <input
+              type="text"
+              id="inputPresetNote"
+              class="jx1-input"
+              placeholder="Ghi chú (VD: Bỏ dòng ẩn nhẫn để lấy tốc chạy + kháng)"
+            />
+            <button type="button" id="btnSavePreset" class="btn-jx1 btn-gold" style="justify-content: center; width: 100%;">
+              💾 Lưu Bộ Trang Bị Này
+            </button>
+          </div>
+
+          <div id="saveStatusToast" style="display: none; margin-bottom: 8px; padding: 6px 8px; background: rgba(22,163,74,0.18); border: 1px solid #22C55E; color: #86EFAC; font-size: 11.5px; text-align: center;"></div>
+
+          <div class="preset-list" id="presetListContainer">
+            <!-- Render danh sách các bộ đồ đã lưu -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Thống Kê Kích Dòng & Sơ Đồ 5 Cặp Đồng Hành -->
+      <div class="panel-card">
+        <div class="panel-header">
+          <h2 class="panel-title">📊 TRẠNG THÁI 5 CẶP & TỔNG KÍCH</h2>
+        </div>
+        <div class="panel-body">
+          <div class="summary-kpi-grid" id="summaryKpiGrid">
+            <!-- Render KPI -->
+          </div>
+
+          <div style="font-size: 12px; font-weight: 700; color: var(--text-title); margin-bottom: 6px;">
+            Vòng Tròn 5 Cặp Kích Thuộc Tính Âm Chuẩn VLTK 1:
+          </div>
+          <div class="pair-chain-list" id="pairChainList">
+            <!-- Render 5 cặp -->
+          </div>
+
+          <!-- Bảng Cộng Dồn Tổng Chỉ Số Nhân Vật (10 Món: Dòng Hiện + Dòng Ẩn Đã Kích) -->
+          <details style="background: #0B0F0D; border: 1px solid #26312A; padding: 8px 10px; margin-top: 10px;" open>
+            <summary style="cursor: pointer; font-weight: 700; color: var(--text-gold-tip); font-size: 12px;">
+              ⚡ Tổng Hợp Chỉ Số Nhân Vật (Cộng Dồn 10 Món: Hiện + Ẩn Đã Kích)
+            </summary>
+            <div id="totalAggregatedStatsBox" style="margin-top: 8px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; font-size: 11.5px;">
+              <!-- Render tổng Sinh lực, Nội lực, PTVL, Kháng Băng/Lôi/Hỏa/Độc, TG làm chậm/choáng/trúng độc... -->
+            </div>
+          </details>
+
+          <details style="background: #0B0F0D; border: 1px solid #26312A; padding: 8px 10px; margin-top: 10px;">
+            <summary style="cursor: pointer; font-weight: 700; color: var(--text-title); font-size: 12px;">
+              🛡️ Chi Tiết Từng Dòng Thuộc Tính Âm Đã Kích Hoạt
+            </summary>
+            <div id="activeHiddenAttributesSummary" style="margin-top: 8px; display: flex; flex-direction: column; gap: 4px; max-height: 220px; overflow-y: auto;">
+              <!-- Render danh sách các dòng ẩn đang phát huy tác dụng -->
+            </div>
+          </details>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- FLOATING TOOLTIP KHI RÊ CHUỘT TRÊN 10 Ô TRANG BỊ -->
+  <div id="floatingTooltip" class="floating-tooltip" role="tooltip" aria-hidden="true"></div>
+
+  <!-- DANH SÁCH GỢI Ý THUỘC TÍNH ĐỒ XANH VLTK 1 (DATALIST CHUẨN THEO 02_loc_do_5_hanh.lua) -->
+  <datalist id="jx1VisibleOptions">
+    <option value="Sinh lực tối đa: +190 điểm"></option>
+    <option value="Nội lực tối đa: +190 điểm"></option>
+    <option value="Thể lực tối đa: +190 điểm"></option>
+    <option value="Tốc độ di chuyển: +40%"></option>
+    <option value="Tốc độ đánh ngoại công: +30%"></option>
+    <option value="Tốc độ đánh nội công: +40%"></option>
+    <option value="Thời gian phục hồi: -40"></option>
+    <option value="Sát thương vật lý ngoại công: +100%"></option>
+    <option value="Tỉ lệ công kích chính xác: +300 điểm"></option>
+    <option value="Phục hồi sinh lực mỗi nửa giây: +5 điểm"></option>
+    <option value="Phục hồi nội lực mỗi nửa giây: +6 điểm"></option>
+    <option value="Sức mạnh: +20 điểm"></option>
+    <option value="Thân pháp: +20 điểm"></option>
+    <option value="Sinh khí: +20 điểm"></option>
+    <option value="Nội công: +20 điểm"></option>
+    <option value="Băng sát ngoại công: +100 điểm"></option>
+    <option value="Độc sát ngoại công: +50 điểm/lần"></option>
+    <option value="Không thể phá hủy"></option>
+  </datalist>
+
+  <datalist id="jx1HiddenOptions">
+    <option value="Phòng thủ vật lý: +25%"></option>
+    <option value="Kháng băng: +25%"></option>
+    <option value="Kháng lôi: +30%"></option>
+    <option value="Kháng hỏa: +25%"></option>
+    <option value="Kháng độc: +25%"></option>
+    <option value="Kháng tất cả: +20%"></option>
+    <option value="Thời gian làm chậm: -40%"></option>
+    <option value="Thời gian trúng độc: -40%"></option>
+    <option value="Thời gian làm choáng: -40%"></option>
+    <option value="Thời gian phục hồi: -40"></option>
+    <option value="Chuyển hóa sát thương thành nội lực: +13%"></option>
+    <option value="Phản đòn cận chiến: +20%"></option>
+    <option value="May mắn: +10%"></option>
+    <option value="Hút sinh lực: +8%"></option>
+    <option value="Hút nội lực: +8%"></option>
+    <option value="Sát thương vật lý ngoại công: +50 điểm"></option>
+    <option value="Sát thương vật lý nội công: +200 điểm"></option>
+    <option value="Băng sát nội công: +200 điểm"></option>
+    <option value="Hỏa sát nội công: +200 điểm"></option>
+    <option value="Lôi sát nội công: +200 điểm"></option>
+    <option value="Độc sát nội công: +50 điểm"></option>
+    <option value="Kỹ năng vốn có: +1 cấp"></option>
+  </datalist>
+
+  <!-- SCRIPTS -->
+  <script src="js/equipmentData.js"></script>
+  <script src="js/nguHanhEngine.js"></script>
+  <script src="js/storageManager.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
+

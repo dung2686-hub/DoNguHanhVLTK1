@@ -1,0 +1,9 @@
+# Ignore local agent configuration
+.agent/
+.agents/
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

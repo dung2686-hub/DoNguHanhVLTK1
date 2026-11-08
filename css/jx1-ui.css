@@ -1,0 +1,969 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-void);
+  background-image:
+    radial-gradient(circle at 20% 15%, rgba(197, 160, 89, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 80% 85%, rgba(74, 222, 128, 0.05) 0%, transparent 45%),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.012) 0px, rgba(255, 255, 255, 0.012) 2px, transparent 2px, transparent 6px);
+  color: var(--text-main);
+  font-family: var(--font-jx1);
+  font-size: 13px;
+  line-height: 1.45;
+  min-height: 100dvh;
+  padding: 16px;
+}
+
+/* Top Application Header */
+.app-topbar {
+  max-width: 1420px;
+  margin: 0 auto 16px auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-bronze);
+  box-shadow: var(--shadow-window);
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-emblem {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border-gold);
+  background: #1B160D;
+  color: var(--el-kim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.brand-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-title);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.brand-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.topbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Classic JX1 Buttons */
+.btn-jx1 {
+  background: linear-gradient(180deg, #27322B 0%, #151C18 100%);
+  color: var(--text-title);
+  border: 1px solid var(--border-bronze);
+  padding: 6px 12px;
+  font-family: var(--font-jx1);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.12s ease, border-color 0.15s ease, background 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-jx1:hover {
+  border-color: var(--border-gold-bright);
+  background: linear-gradient(180deg, #324238 0%, #1C2620 100%);
+  color: #FFF;
+}
+
+.btn-jx1:active {
+  transform: translateY(1px);
+}
+
+.btn-jx1.btn-gold {
+  background: linear-gradient(180deg, #5A451C 0%, #33250C 100%);
+  border-color: var(--border-gold);
+  color: #FEF08A;
+}
+
+.btn-jx1.btn-gold:hover {
+  border-color: #FDE047;
+  background: linear-gradient(180deg, #715722 0%, #423010 100%);
+}
+
+.btn-jx1.btn-danger {
+  background: linear-gradient(180deg, #4C1D1D 0%, #2B0F0F 100%);
+  border-color: #991B1B;
+  color: #FCA5A5;
+}
+
+/* Main 3-Column Workspace */
+.workspace-grid {
+  max-width: 1420px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 390px 1fr 370px;
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 1200px) {
+  .workspace-grid {
+    grid-template-columns: 390px 1fr;
+  }
+  .col-presets {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 820px) {
+  .workspace-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   COLUMN 1: AUTHENTIC JX1 CHARACTER EQUIPMENT WINDOW (F3)
+   ============================================================ */
+.jx1-window {
+  background:
+    radial-gradient(circle at 50% 45%, rgba(44, 58, 49, 0.42) 0%, rgba(12, 16, 14, 0.96) 75%),
+    var(--bg-panel);
+  border: 2px solid var(--border-bronze);
+  outline: 1px solid var(--border-outer);
+  box-shadow: var(--shadow-window);
+  position: relative;
+  user-select: none;
+}
+
+/* Ornamental Title Bar: HỆ THỐNG NHÂN VẬT */
+.jx1-window-header {
+  background: linear-gradient(180deg, #46371E 0%, #241C0F 50%, #382B16 100%);
+  border-bottom: 2px solid var(--border-bronze);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.jx1-ornament {
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--border-gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--border-gold);
+  font-size: 11px;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.jx1-window-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #F5E6C8;
+  text-shadow: 0 2px 3px #000, 0 0 8px rgba(212, 175, 55, 0.4);
+  letter-spacing: 0.06em;
+}
+
+/* Classic Tabs: Thuộc tính | Trang bị | Đánh giá */
+.jx1-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: #141815;
+  border-bottom: 1px solid var(--border-bronze);
+}
+
+.jx1-tab {
+  padding: 6px 8px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  border-right: 1px solid #2C352F;
+  background: #121714;
+}
+
+.jx1-tab.active {
+  background: linear-gradient(180deg, #3A463D 0%, #222B25 100%);
+  color: #FFF;
+  font-weight: 700;
+  border-bottom: 2px solid var(--border-gold);
+}
+
+/* Character Top Info Bar (Replaced Character Name with Ngũ Hành Selector) */
+.jx1-char-bar {
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-bottom: 1px solid rgba(110, 90, 52, 0.4);
+  background: rgba(10, 14, 12, 0.65);
+}
+
+.char-element-selector-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+}
+
+.char-label {
+  color: #D1D5DB;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.char-element-select {
+  flex: 1;
+  background: #080B09;
+  color: var(--text-jade);
+  border: 1px solid var(--border-gold);
+  padding: 5px 8px;
+  font-family: var(--font-jx1);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+}
+
+.char-element-select:focus {
+  border-color: var(--border-gold-bright);
+  box-shadow: 0 0 0 2px rgba(234, 179, 8, 0.25);
+}
+
+.char-pk-box {
+  text-align: right;
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.pk-row {
+  color: #D1D5DB;
+}
+
+.pk-val {
+  display: inline-block;
+  min-width: 28px;
+  text-align: center;
+  background: #080B09;
+  border: 1px solid #374151;
+  color: var(--text-jade);
+  padding: 0 4px;
+  margin-left: 4px;
+}
+
+.char-sub-status {
+  color: var(--text-jade);
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+/* Quick 5 Element Pills under Character Bar */
+.char-element-pills {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  padding: 8px 12px;
+  background: rgba(8, 11, 9, 0.85);
+  border-bottom: 1px solid rgba(110, 90, 52, 0.45);
+}
+
+.el-pill {
+  background: #121714;
+  border: 1px solid #2D3831;
+  color: var(--text-muted);
+  padding: 5px 4px;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.el-pill:hover {
+  border-color: var(--border-gold);
+  color: #FFF;
+}
+
+.el-pill.active[data-el="KIM"] {
+  background: var(--el-kim-bg);
+  border-color: var(--el-kim);
+  color: var(--el-kim);
+}
+.el-pill.active[data-el="MOC"] {
+  background: var(--el-moc-bg);
+  border-color: var(--el-moc);
+  color: var(--el-moc);
+}
+.el-pill.active[data-el="THUY"] {
+  background: var(--el-thuy-bg);
+  border-color: var(--el-thuy);
+  color: var(--el-thuy);
+}
+.el-pill.active[data-el="HOA"] {
+  background: var(--el-hoa-bg);
+  border-color: var(--el-hoa);
+  color: var(--el-hoa);
+}
+.el-pill.active[data-el="THO"] {
+  background: var(--el-tho-bg);
+  border-color: var(--el-tho);
+  color: var(--el-tho);
+}
+
+/* Character Passive Auto-Activation Banner */
+.char-passive-banner {
+  margin: 8px 12px 0 12px;
+  padding: 6px 10px;
+  background: rgba(20, 30, 24, 0.9);
+  border: 1px solid var(--border-bronze);
+  font-size: 11.5px;
+  color: var(--text-title);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* ============================================================
+   10-SLOT EQUIPMENT STAGE (3 COLUMNS AROUND MARTIAL SILHOUETTE)
+   ============================================================ */
+.jx1-stage-wrapper {
+  position: relative;
+  padding: 14px 16px;
+  min-height: 455px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Subtle Oriental Silhouette Background */
+.jx1-silhouette {
+  position: absolute;
+  inset: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0.16;
+  z-index: 0;
+}
+
+/* SVG Overlay for Ngũ Hành Activation Lines */
+.jx1-lines-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* 3 Columns for 10 Core Equipment Slots */
+.jx1-slots-grid {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 88px 1fr 88px;
+  gap: 16px;
+  align-items: center;
+}
+
+.slot-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.slot-col-left {
+  justify-content: space-between;
+}
+
+.slot-col-center {
+  justify-content: center;
+  gap: 12px;
+}
+
+.slot-col-right {
+  justify-content: space-between;
+}
+
+/* Individual Equipment Slot Box */
+.equip-slot {
+  position: relative;
+  background: rgba(9, 12, 10, 0.92);
+  border: 1.5px solid var(--border-slot);
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.85);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  transition: transform 0.14s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Authentic Proportions for the 10 JX1 Slots */
+.equip-slot[data-slot="ho_uyen"]   { width: 76px; height: 92px; }
+.equip-slot[data-slot="nhan_tren"] { width: 58px; height: 58px; }
+.equip-slot[data-slot="nhan_duoi"] { width: 58px; height: 58px; }
+.equip-slot[data-slot="ngoc_boi"]  { width: 72px; height: 92px; }
+
+.equip-slot[data-slot="dau_khoi"]  { width: 92px; height: 92px; }
+.equip-slot[data-slot="y_phuc"]    { width: 108px; height: 142px; }
+.equip-slot[data-slot="yeu_dai"]   { width: 108px; height: 54px; }
+
+.equip-slot[data-slot="hang_lien"] { width: 82px; height: 58px; }
+.equip-slot[data-slot="vu_khi"]    { width: 82px; height: 158px; }
+.equip-slot[data-slot="hai"]       { width: 82px; height: 92px; }
+
+.equip-slot:hover {
+  transform: scale(1.03);
+  border-color: var(--border-gold-bright);
+  z-index: 5;
+}
+
+.equip-slot.selected {
+  border-color: #FDE047;
+  box-shadow: 0 0 0 2px rgba(250, 204, 21, 0.45), inset 0 0 14px rgba(250, 204, 21, 0.22);
+  z-index: 6;
+}
+
+/* Highlight when another selected slot requires or is activated by this slot */
+.equip-slot.source-highlight {
+  border-color: var(--text-jade);
+  box-shadow: 0 0 12px rgba(74, 222, 128, 0.45);
+}
+
+.equip-slot.broken-chain {
+  border-style: dashed;
+}
+
+/* Element Badge (Top-Left of Slot) */
+.slot-el-badge {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 4px;
+  line-height: 1.1;
+  border: 1px solid currentColor;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.slot-el-badge[data-el="KIM"]  { color: var(--el-kim); }
+.slot-el-badge[data-el="MOC"]  { color: var(--el-moc); }
+.slot-el-badge[data-el="THUY"] { color: var(--el-thuy); }
+.slot-el-badge[data-el="HOA"]  { color: var(--el-hoa); }
+.slot-el-badge[data-el="THO"]  { color: var(--el-tho); }
+
+/* Character Self-Activated Indicator (Top-Right of Slot) */
+.slot-char-star {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  font-size: 10px;
+  color: var(--text-jade);
+  background: rgba(6, 28, 14, 0.9);
+  border: 1px solid var(--el-moc-border);
+  padding: 0 3px;
+  line-height: 1.2;
+}
+
+/* Slot SVG Icon & Watermark Label */
+.slot-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.slot-icon-svg {
+  width: 40px;
+  height: 40px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.9));
+}
+
+.equip-slot[data-slot="y_phuc"] .slot-icon-svg,
+.equip-slot[data-slot="vu_khi"] .slot-icon-svg {
+  width: 54px;
+  height: 54px;
+}
+
+.equip-slot[data-slot="yeu_dai"] .slot-icon-svg,
+.equip-slot[data-slot="nhan_tren"] .slot-icon-svg,
+.equip-slot[data-slot="nhan_duoi"] .slot-icon-svg,
+.equip-slot[data-slot="hang_lien"] .slot-icon-svg {
+  width: 30px;
+  height: 30px;
+}
+
+.slot-name-label {
+  position: absolute;
+  bottom: 13px;
+  left: 2px;
+  right: 2px;
+  text-align: center;
+  font-size: 10px;
+  color: rgba(243, 229, 171, 0.85);
+  text-shadow: 0 1px 2px #000, 0 0 4px #000;
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 3 Hidden-Line Activation Dots at Bottom of Each Slot */
+.slot-hidden-dots {
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.78);
+  padding: 2px 5px;
+  border: 1px solid rgba(110, 90, 52, 0.5);
+}
+
+.hidden-dot {
+  width: 6px;
+  height: 6px;
+  background: #334155;
+  border: 1px solid #475569;
+}
+
+.hidden-dot.on {
+  background: var(--attr-hidden-on);
+  border-color: #FEF08A;
+  box-shadow: 0 0 5px var(--attr-hidden-on);
+}
+
+.hidden-dot.on-char {
+  background: var(--text-jade);
+  border-color: #86EFAC;
+  box-shadow: 0 0 5px var(--text-jade);
+}
+
+/* Bottom Bar of F3 Window */
+.jx1-window-footer {
+  border-top: 1px solid var(--border-bronze);
+  background: #101512;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.legend-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ============================================================
+   COLUMN 2: AUTHENTIC JX1 TOOLTIP & SLOT EDITOR STUDIO
+   ============================================================ */
+.panel-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-bronze);
+  box-shadow: var(--shadow-window);
+  margin-bottom: 16px;
+}
+
+.panel-header {
+  background: linear-gradient(180deg, #2B2416 0%, #17140D 100%);
+  border-bottom: 1px solid var(--border-bronze);
+  padding: 9px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.panel-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-title);
+  letter-spacing: 0.03em;
+}
+
+.panel-body {
+  padding: 14px;
+}
+
+/* Authentic VLTK 1 In-Game Equipment Tooltip Preview */
+.jx1-tooltip-box {
+  background: var(--bg-tooltip);
+  border: 1.5px solid var(--border-gold);
+  padding: 14px 18px;
+  text-align: center;
+  max-width: 460px;
+  margin: 0 auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.95);
+}
+
+.tt-item-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #60A5FA;
+  margin-bottom: 3px;
+}
+
+.tt-item-name.tier-gold {
+  color: var(--text-gold-tip);
+}
+
+.tt-bind-text {
+  font-size: 12.5px;
+  color: #22C55E;
+  margin-bottom: 4px;
+}
+
+.tt-meta-line {
+  font-size: 13px;
+  color: #FFFFFF;
+  margin-bottom: 2px;
+}
+
+.tt-gold-type {
+  font-size: 12.5px;
+  color: #93C5FD;
+  margin-bottom: 10px;
+}
+
+.tt-base-stats {
+  margin-bottom: 10px;
+}
+
+.tt-attr-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 12px;
+}
+
+.tt-attr-line {
+  font-size: 13.5px;
+  line-height: 1.35;
+  padding: 1px 6px;
+}
+
+.tt-attr-line.visible-line {
+  color: #7DD3FC;
+}
+
+.tt-attr-line.hidden-active {
+  color: #60A5FA;
+  font-weight: 700;
+}
+
+.tt-attr-line.tier-gold.visible-line,
+.tt-attr-line.tier-gold.hidden-active {
+  color: var(--attr-hidden-on);
+}
+
+.tt-attr-line.hidden-inactive {
+  color: var(--attr-hidden-off);
+}
+
+.tt-source-tag {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 400;
+  margin-left: 6px;
+  padding: 0 5px;
+  border: 1px solid currentColor;
+  vertical-align: middle;
+}
+
+.tt-Requirement-footer {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(197, 160, 89, 0.35);
+  color: var(--text-gold-tip);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Activation Source Breakdown Cards (3 Sources: Character + 2 Linked Items) */
+.sources-breakdown {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 600px) {
+  .sources-breakdown {
+    grid-template-columns: 1fr;
+  }
+}
+
+.source-card {
+  background: var(--bg-panel-inner);
+  border: 1px solid #2D3831;
+  padding: 8px 10px;
+  font-size: 12px;
+}
+
+.source-card.active {
+  border-color: var(--el-moc-border);
+  background: rgba(22, 163, 74, 0.1);
+}
+
+.source-card.inactive {
+  border-color: #475569;
+  opacity: 0.85;
+}
+
+.source-card-title {
+  font-weight: 700;
+  color: var(--text-title);
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Editor Controls for Selected Equipment Slot */
+.editor-section {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(110, 90, 52, 0.4);
+}
+
+.editor-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.editor-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-title);
+}
+
+.attr-edit-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+@media (max-width: 640px) {
+  .attr-edit-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.attr-edit-item {
+  background: #0B0F0D;
+  border: 1px solid #26312A;
+  padding: 6px 8px;
+}
+
+.attr-edit-item label {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 3px;
+}
+
+.jx1-input {
+  width: 100%;
+  background: #141B17;
+  border: 1px solid #38463D;
+  color: #FFF;
+  padding: 5px 8px;
+  font-family: var(--font-jx1);
+  font-size: 12px;
+}
+
+.jx1-input:focus {
+  border-color: var(--border-gold);
+  outline: none;
+}
+
+/* ============================================================
+   COLUMN 3: SUMMARY STATS & SAVE/LOAD BUILD PRESETS (PHÁ HÀNH)
+   ============================================================ */
+.summary-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.kpi-box {
+  background: var(--bg-panel-inner);
+  border: 1px solid #2E3A32;
+  padding: 8px;
+  text-align: center;
+}
+
+.kpi-num {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-gold-tip);
+}
+
+.kpi-label {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* 5-Pair Chain Overview Table */
+.pair-chain-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.pair-row {
+  background: #0D120F;
+  border: 1px solid #26312A;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.pair-row.pha-hanh {
+  border-left: 3px solid #F59E0B;
+}
+
+.pair-row.full-kic {
+  border-left: 3px solid #22C55E;
+}
+
+/* Presets & Save Form */
+.save-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 10px;
+  background: #0C100E;
+  border: 1px solid var(--border-bronze);
+}
+
+.preset-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.preset-item {
+  background: var(--bg-panel-inner);
+  border: 1px solid #2E3A32;
+  padding: 9px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.preset-item:hover {
+  border-color: var(--border-gold);
+}
+
+.preset-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.preset-name {
+  font-weight: 700;
+  color: var(--text-title);
+  font-size: 12.5px;
+}
+
+.preset-badge {
+  font-size: 10px;
+  padding: 1px 5px;
+  font-weight: 700;
+  border: 1px solid currentColor;
+}
+
+.preset-badge.type-chuan {
+  color: var(--text-jade);
+}
+
+.preset-badge.type-phahanh {
+  color: #FBBF24;
+}
+
+.preset-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.preset-actions {
+  display: flex;
+  gap: 6px;
+}
+
+/* Floating Hover Tooltip on Desktop */
+.floating-tooltip {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  width: 340px;
+  display: none;
+}
+
+.floating-tooltip.show {
+  display: block;
+}
+
+@media (max-width: 820px) {
+  .floating-tooltip {
+    display: none !important;
+  }
+}
+
